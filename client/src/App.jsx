@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Request from './pages/request';
 import Profile from './pages/profile';
@@ -13,7 +12,7 @@ function App() {
 
   return (
     <>
-      
+      <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -21,9 +20,8 @@ function App() {
         <Route path="/request" element={<Request />} />
         <Route path="/requests" element={<Active_request />} />
         <Route path="/feedback" element={<Feedback />} />
-
-
       </Routes>
+      </Router>
     </>
   )
 }

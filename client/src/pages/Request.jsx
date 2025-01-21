@@ -1,5 +1,5 @@
 
-const home = () => {
+const request = () => {
   return (
     <div>
       
@@ -7,4 +7,4 @@ const home = () => {
   )
 }
 
-export default home
+export default request

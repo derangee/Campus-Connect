@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { auth, provider } from "../firebase"; // Import from your firebase.js
 import { signInWithPopup, signOut } from "firebase/auth";

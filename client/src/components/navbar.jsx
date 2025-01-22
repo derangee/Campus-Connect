@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from "react";
 import { auth, provider } from "../firebase"; // Import from your firebase.js
 import { signInWithPopup, signOut } from "firebase/auth";

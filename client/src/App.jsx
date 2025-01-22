@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Routes, Route } from "react-router-dom";
 import Request from "./pages/request";
-import Profile from "./pages/profile";
+import Profile from "./pages/Profile"
 import About from "./pages/about";
 import Feedback from "./pages/feedback";
 import Active_request from "./pages/active_request";

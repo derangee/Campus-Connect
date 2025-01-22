@@ -6,6 +6,7 @@ import { signInWithPopup, signOut } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 
 
+
 function navbar() {
   const [user, setUser] = useState(null);
 

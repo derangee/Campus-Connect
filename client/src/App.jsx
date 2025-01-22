@@ -2,9 +2,9 @@
 import { Routes, Route } from "react-router-dom";
 import Request from "./pages/request";
 import Profile from "./pages/Profile"
-import About from "./pages/about";
+import About from "./pages/About";
 import Feedback from "./pages/feedback";
-import Active_request from "./pages/active_request";
+import Active_request from "./pages/Active_request";
 import Home from "./pages/home";
 import React from "react";
 

@@ -11,11 +11,21 @@ function navbar() {
   const handleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
-      setUser(result.user); // Set the signed-in user's data
+      const user = result.user;
+  
+      // Check if the email belongs to the @srmap.edu.in domain
+      if (!user.email.endsWith("@srmap.edu.in")) {
+        alert("Please log-in using your college E-mail ID");
+        await signOut(auth); // Immediately sign out unauthorized users
+        return;
+      }
+  
+      setUser(user); // Set the signed-in user
     } catch (error) {
-      console.error("Error signing in:", error.message);
+      console.error("Error signing in:", error);
     }
   };
+  
 
   // Handle Sign Out
   const handleSignOut = async () => {

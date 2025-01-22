@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { db, auth } from "../firebase"; // Import Firebase config
 import { collection, addDoc } from "firebase/firestore"; // Firestore methods
 import { useAuthState } from "react-firebase-hooks/auth"; // For current user authentication state
@@ -71,7 +71,7 @@ const Feedback = () => {
         <div className="mb-6">
           <p>
             If you have any issue, please feel free to contact:{" "}
-            <span className="font-bold">campusconnect@srmap.edu.in</span>
+            <span className="font-bold">campus_connect@srmap.edu.in</span>
           </p>
         </div>
 

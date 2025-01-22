@@ -1,39 +1,50 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { auth, provider } from "../firebase"; // Import from your firebase.js
 import { signInWithPopup, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+
 
 function navbar() {
   const [user, setUser] = useState(null);
 
-  // Handle Sign In
+  useEffect(() => {
+    // Check auth state on component mount
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser && currentUser.email.endsWith("@srmap.edu.in")) {
+        setUser(currentUser); // Keep the user signed in
+      } else {
+        setUser(null); // Sign out unauthorized users
+      }
+    });
+
+    return () => unsubscribe(); // Clean up the listener
+  }, []);
+
   const handleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-  
+
       // Check if the email belongs to the @srmap.edu.in domain
-      if (!user.email.endsWith("@srmap.edu.in")) {
-        alert("Please log-in using your college E-mail ID");
-        await signOut(auth); // Immediately sign out unauthorized users
+      if (!result.user.email.endsWith("@srmap.edu.in")) {
+        alert("Please Log-In using your university E-mail ID");
+        await signOut(auth);
         return;
       }
-  
-      setUser(user); // Set the signed-in user
+
+      setUser(result.user);
     } catch (error) {
       console.error("Error signing in:", error);
     }
   };
-  
 
-  // Handle Sign Out
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      setUser(null); // Clear user data on sign-out
+      setUser(null);
     } catch (error) {
-      console.error("Error signing out:", error.message);
+      console.error("Error signing out:", error);
     }
   };
 
@@ -62,12 +73,9 @@ function navbar() {
       <div>
         {user ? (
           <div className="flex items-center space-x-4">
-            <img
-              src={user.photoURL}
-              alt="User Avatar"
-              className="h-8 w-8 rounded-full"
-            />
-            <span className="text-sm font-medium">Hi, {user.displayName}</span>
+            <span className="text-sm font-medium">
+              Welcome, {user.displayName}
+            </span>
             <button
               onClick={handleSignOut}
               className="rounded bg-red-600 px-4 py-2 text-sm font-semibold hover:bg-red-700"

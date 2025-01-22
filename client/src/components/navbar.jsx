@@ -51,11 +51,12 @@ function Navbar() {
   return (
     <nav className="flex items-center justify-between bg-[#4d6b2c] px-6 py-4 text-white">
       {/* Logo */}
+      <a href="/">
       <img
         src={logo}
         alt="SRM AP Logo"
         className="h-12 object-contain"
-      />
+      /></a>
 
       {/* Hamburger Menu for Mobile */}
       <button

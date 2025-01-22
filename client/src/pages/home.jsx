@@ -30,25 +30,28 @@ const Home = () => {
             </h1>
           </div>
 
-          {/* Requests */}
-          <div className="flex justify-center flex-wrap gap-8 mt-10">
-            {[
-              { icon: <BookOutlinedIcon style={{ fontSize: '50px' }} />, label: "Projects" },
-              { icon: <EmojiEventsOutlinedIcon style={{ fontSize: '50px' }} />, label: "Competition" },
-              { icon: <LocalAirportOutlinedIcon style={{ fontSize: '50px' }} />, label: "Trips" },
-              { icon: <DirectionsBusFilledOutlinedIcon style={{ fontSize: '50px' }} />, label: "Outing" },
-              { icon: <QuestionMarkOutlinedIcon style={{ fontSize: '50px' }} />, label: "Lost & Found" },
-              { icon: <GroupsOutlinedIcon style={{ fontSize: '50px' }} />, label: "Teammate" },
-              { icon: <WindowOutlinedIcon style={{ fontSize: '50px' }} />, label: "Roommates" },
-            ].map(({ icon, label }) => (
-              <button
-                key={label}
-                className="bg-[#4d6b2c] w-36 h-36 flex flex-col items-center justify-center text-white font-bold rounded-xl shadow-lg hover:scale-105 transition-transform"
-              >
-                {icon}
-                <span className="mt-2">{label}</span>
-              </button>
-            ))}
+          {/* Box Container for New Request */}
+          <div className="p-8 rounded-3xl shadow-lg mt-10 w-4/5 mx-auto bg-[#4d6b2c]"> 
+            <h2 className="text-4xl font-bold mb-6 text-white">New Request</h2>
+            <div className="flex justify-center flex-wrap gap-4 sm:gap-6">
+              {[
+                { icon: <BookOutlinedIcon style={{ fontSize: '50px' }} />, label: "Projects" },
+                { icon: <EmojiEventsOutlinedIcon style={{ fontSize: '50px' }} />, label: "Competition" },
+                { icon: <LocalAirportOutlinedIcon style={{ fontSize: '50px' }} />, label: "Trips" },
+                { icon: <DirectionsBusFilledOutlinedIcon style={{ fontSize: '50px' }} />, label: "Outing" },
+                { icon: <QuestionMarkOutlinedIcon style={{ fontSize: '50px' }} />, label: "Lost & Found" },
+                { icon: <GroupsOutlinedIcon style={{ fontSize: '50px' }} />, label: "Teammate" },
+                { icon: <WindowOutlinedIcon style={{ fontSize: '50px' }} />, label: "Room-mates" },
+              ].map(({ icon, label }) => (
+                <button
+                  key={label}
+                  className="bg-[#618b33] w-32 h-32 flex flex-col items-center justify-center text-white font-bold rounded-xl shadow-lg hover:scale-105 transition-transform"
+                >
+                  {icon}
+                  <span className="mt-2 text-sm">{label}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       ) : (

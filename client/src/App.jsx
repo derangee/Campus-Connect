@@ -5,7 +5,7 @@ import Profile from "./pages/Profile"
 import About from "./pages/about";
 import Feedback from "./pages/feedback";
 import Active_request from "./pages/active_request";
-import Home from "./pages/Home";
+import Home from "./pages/home";
 import React from "react";
 
 function App() {

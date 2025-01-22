@@ -75,7 +75,7 @@ function navbar() {
         {user ? (
           <div className="flex items-center space-x-4">
             <span className="text-sm font-medium">
-              Welcome, {user.displayName}
+              <img src={user.photoURL} alt="Profile" className="h-10 w-10 rounded-full"/>
             </span>
             <button
               onClick={handleSignOut}

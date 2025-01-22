@@ -51,25 +51,7 @@ function navbar() {
 
   return (
     <nav className="flex items-center justify-between bg-gradient-to-r from-gray-900 to-blue-800 px-6 py-4 text-white">
-      {/* Navigation Links */}
-      <div className="flex space-x-6">
-        <Link to="/" className="hover:underline">
-          Home
-        </Link>
-        <Link to="/profile" className="hover:underline">
-          Profile
-        </Link>
-        <Link to="/request" className="hover:underline">
-          Request
-        </Link>
-        <Link to="/active-requests" className="hover:underline">
-          Active Requests
-        </Link>
-        <Link to="/feedback" className="hover:underline">
-          Feedback
-        </Link>
-      </div>
-
+      
       {/* Sign In/Out Button */}
       <div>
         {user ? (

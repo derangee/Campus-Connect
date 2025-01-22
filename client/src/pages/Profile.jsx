@@ -32,8 +32,6 @@ const profile = () => {
 
   return (
     <div className="min-h-screen bg-[#f0f0f0] text-white">
-
-
       {/* Profile Details */}
       <div className="max-w-md mx-auto mt-10 p-6 bg-[#4d6b2c] rounded-lg shadow-lg text-center">
         <div className="flex justify-center mb-4">
@@ -50,11 +48,17 @@ const profile = () => {
           </span>
           {user.email || "No Email Provided"}
         </p>
+        {user.phoneNumber && (
+          <p className="text-sm flex items-center justify-center gap-2 mt-2">
+            <span role="img" aria-label="phone">
+              📱
+            </span>
+            {user.phoneNumber}
+          </p>
+        )}
       </div>
-
-      
     </div>
-  )
+  );
 }
 
-export default profile
+export default profile;

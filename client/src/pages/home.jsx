@@ -32,7 +32,7 @@ const Home = () => {
 
           {/* Box Container for New Request */}
           <div className="p-8 rounded-3xl shadow-lg mt-10 w-4/5 mx-auto bg-[#4d6b2c]"> 
-            <h2 className="text-4xl font-bold mb-6 text-white">New Request</h2>
+            <h2 className="text-4xl font-bold mb-6 text-white">New Request + </h2>
             <div className="flex justify-center flex-wrap gap-4 sm:gap-6">
               {[
                 { icon: <BookOutlinedIcon style={{ fontSize: '50px' }} />, label: "Projects" },

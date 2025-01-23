@@ -69,25 +69,25 @@ const Home = () => {
           {/* Sidebar */}
           {sidebarVisible && (
             <div
-              className="fixed top-0 right-0 w-full md:w-1/3 h-full bg-white shadow-lg z-50 p-6 overflow-y-auto transition-transform duration-300"
+              className="fixed top-0 right-0 w-full md:w-1/3 h-full bg-[#28430d] shadow-lg z-50 p-6  overflow-y-auto transition-transform duration-300"
               style={{ transform: sidebarVisible ? "translateX(0)" : "translateX(100%)" }}
             >
               <button
                 onClick={closeSidebar}
-                className="text-black font-bold text-xl absolute top-4 right-4"
+                className="text-white font-bold text-xl absolute top-4 right-4" 
               >
                 &times;
               </button>
-              <h2 className="text-2xl font-bold mb-4">Create a {selectedRequest} Request</h2>
+              <h2 className="text-2xl text-white font-bold mb-4">Create a {selectedRequest} Request</h2>
               {/* Add form fields or additional content here */}
               <form>
-                <label className="block text-gray-700 font-bold mb-2">Title</label>
+                <label className="block text-white font-bold mb-2">Title</label>
                 <input
                   type="text"
                   className="w-full p-2 border rounded-md mb-4"
                   placeholder={`Enter ${selectedRequest} title`}
                 />
-                <label className="block text-gray-700 font-bold mb-2">Description</label>
+                <label className="block text-white font-bold mb-2">Description</label>
                 <textarea
                   className="w-full p-2 border rounded-md mb-4"
                   placeholder={`Describe your ${selectedRequest}`}

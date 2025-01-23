@@ -10,6 +10,8 @@ import WindowOutlinedIcon from '@mui/icons-material/WindowOutlined';
 
 const Home = () => {
   const [user, setUser] = useState(null);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState("");
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -19,8 +21,18 @@ const Home = () => {
     return () => unsubscribe(); // Clean up the listener
   }, []);
 
+  const handleButtonClick = (label) => {
+    setSelectedRequest(label); // Set the type of request
+    setSidebarVisible(true); // Show the sidebar
+  };
+
+  const closeSidebar = () => {
+    setSidebarVisible(false); // Hide the sidebar
+    setSelectedRequest(""); // Clear the selected request
+  };
+
   return (
-    <div className="text-center h-screen mt-7">
+    <div className="text-center h-screen mt-7 relative">
       {user ? (
         <div>
           <div className="text-center">
@@ -44,6 +56,7 @@ const Home = () => {
               ].map(({ icon, label }) => (
                 <button
                   key={label}
+                  onClick={() => handleButtonClick(label)}
                   className="bg-[#618b33] w-32 h-32 flex flex-col items-center justify-center text-white font-bold rounded-xl shadow-lg hover:scale-105 transition-transform"
                 >
                   {icon}
@@ -52,6 +65,42 @@ const Home = () => {
               ))}
             </div>
           </div>
+
+          {/* Sidebar */}
+          {sidebarVisible && (
+            <div
+              className="fixed top-0 right-0 w-full md:w-1/3 h-full bg-white shadow-lg z-50 p-6 overflow-y-auto transition-transform duration-300"
+              style={{ transform: sidebarVisible ? "translateX(0)" : "translateX(100%)" }}
+            >
+              <button
+                onClick={closeSidebar}
+                className="text-black font-bold text-xl absolute top-4 right-4"
+              >
+                &times;
+              </button>
+              <h2 className="text-2xl font-bold mb-4">Create a {selectedRequest} Request</h2>
+              {/* Add form fields or additional content here */}
+              <form>
+                <label className="block text-gray-700 font-bold mb-2">Title</label>
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded-md mb-4"
+                  placeholder={`Enter ${selectedRequest} title`}
+                />
+                <label className="block text-gray-700 font-bold mb-2">Description</label>
+                <textarea
+                  className="w-full p-2 border rounded-md mb-4"
+                  placeholder={`Describe your ${selectedRequest}`}
+                ></textarea>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600"
+                >
+                  Submit
+                </button>
+              </form>
+            </div>
+          )}
         </div>
       ) : (
         <h1 className="text-3xl font-bold">Please Sign-In...</h1>

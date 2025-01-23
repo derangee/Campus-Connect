@@ -52,11 +52,12 @@ function Navbar() {
     <nav className="flex items-center justify-between bg-[#4d6b2c] px-6 py-4 text-white">
       {/* Logo */}
       <a href="/">
-      <img
-        src={logo}
-        alt="SRM AP Logo"
-        className="h-12 object-contain"
-      /></a>
+        <img
+          src={logo}
+          alt="SRM AP Logo"
+          className="h-12 object-contain"
+        />
+      </a>
 
       {/* Hamburger Menu for Mobile */}
       <button
@@ -87,7 +88,18 @@ function Navbar() {
                   <button
                     className="w-full text-left px-4 py-2 text-sm font-semibold hover:bg-[#f0f0f0]"
                   >
-                    <a href="/profile">Go to Profile</a>
+                    <a href="/">Home</a>
+                    
+                  </button>
+                  <button
+                    className="w-full text-left px-4 py-2 text-sm font-semibold hover:bg-[#f0f0f0]"
+                  >
+                    <a href="/profile">Your Profile</a>
+                  </button>
+                  <button
+                    className="w-full text-left px-4 py-2 text-sm font-semibold hover:bg-[#f0f0f0]"
+                  >
+                    <a href="/about">About Us</a>
                   </button>
                 </div>
               )}

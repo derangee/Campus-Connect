@@ -15,20 +15,20 @@ const Home = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser); // Set the user when authentication state changes
+      setUser(currentUser);
     });
 
-    return () => unsubscribe(); // Clean up the listener
+    return () => unsubscribe();
   }, []);
 
   const handleButtonClick = (label) => {
-    setSelectedRequest(label); // Set the type of request
-    setSidebarVisible(true); // Show the sidebar
+    setSelectedRequest(label); 
+    setSidebarVisible(true); 
   };
 
   const closeSidebar = () => {
-    setSidebarVisible(false); // Hide the sidebar
-    setSelectedRequest(""); // Clear the selected request
+    setSidebarVisible(false); 
+    setSelectedRequest(""); 
   };
 
   return (

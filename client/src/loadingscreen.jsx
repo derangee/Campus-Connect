@@ -8,7 +8,7 @@ import logo from "../public/logo.png";
 import { BrowserRouter as Router } from "react-router-dom";
 
 const LoadingScreen = () => {
-  const text = "SRMAP Campus Connect...";
+  const text = "SRRMAP Campus Connect...";
   const [visibleText, setVisibleText] = useState("");
 
   useEffect(() => {

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useState, useEffect } from "react";
 import { auth } from "../firebase"; // Import your Firebase config
 import BookOutlinedIcon from '@mui/icons-material/BookOutlined';

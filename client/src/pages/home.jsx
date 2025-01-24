@@ -7,12 +7,6 @@ import QuestionMarkOutlinedIcon from "@mui/icons-material/QuestionMarkOutlined";
 import DirectionsBusFilledOutlinedIcon from "@mui/icons-material/DirectionsBusFilledOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import WindowOutlinedIcon from "@mui/icons-material/WindowOutlined";
-import LostFoundForm from '../components/LostFoundForm';
-import RoommatesForm from '../components/RoommateForm';
-import SportsForm from '../components/SportsForm';
-import TripsOutingForm from "../components/TripsOutingForm";
-import TeammateForm from "../components/TeammateForm";
-
 
 const Home = () => {
   const [user, setUser] = useState(null);
@@ -25,7 +19,25 @@ const Home = () => {
     skillsRequired: "",
     duration: "",
     teammateExpectations: "",
-    userLimit: "", // New field for user limit
+    userLimit: "",
+    sportName: "",
+    date: "",
+    time: "",
+    venue: "",
+    travellingFrom: "",
+    travellingTo: "",
+    timeOfTravel: "",
+    travelMode: "",
+    itemName: "",
+    itemDescription: "",
+    dateLostFound: "",
+    locationLostFound: "",
+    photo: null,
+    roommatesGender: "",
+    roomTypePreference: "",
+    hostelTower: "",
+    programYear: "",
+    additionalInfo: ""
   });
 
   useEffect(() => {
@@ -63,6 +75,24 @@ const Home = () => {
       duration: "",
       teammateExpectations: "",
       userLimit: "",
+      sportName: "",
+      date: "",
+      time: "",
+      venue: "",
+      travellingFrom: "",
+      travellingTo: "",
+      timeOfTravel: "",
+      travelMode: "",
+      itemName: "",
+      itemDescription: "",
+      dateLostFound: "",
+      locationLostFound: "",
+      photo: null,
+      roommatesGender: "",
+      roomTypePreference: "",
+      hostelTower: "",
+      programYear: "",
+      additionalInfo: ""
     });
   };
 
@@ -71,33 +101,61 @@ const Home = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const handleFileChange = (e) => {
+    setFormData((prevData) => ({ ...prevData, photo: e.target.files[0] }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      !formData.title ||
-      !formData.description ||
-      !formData.skillsRequired ||
-      !formData.duration ||
-      !formData.teammateExpectations ||
-      !formData.userLimit
-    ) {
-      alert("Please fill out all fields before submitting.");
-      return;
-    }
-
     const newRequest = {
       type: selectedRequest,
-      title: formData.title,
-      description: formData.description,
-      skillsRequired: formData.skillsRequired,
-      duration: formData.duration,
-      teammateExpectations: formData.teammateExpectations,
-      userLimit: parseInt(formData.userLimit, 10),
       createdBy: user?.uid || "Anonymous",
       createdByName: user?.displayName || "Anonymous",
       createdAt: new Date(),
       applicants: [],
     };
+
+    switch (selectedRequest) {
+      case "Teammate":
+        newRequest.title = formData.title;
+        newRequest.description = formData.description;
+        newRequest.requirement = formData.skillsRequired;
+        newRequest.teammateType = formData.teammateExpectations;
+        newRequest.additionalInfo = formData.additionalInfo;
+        break;
+      case "Sports":
+        newRequest.sportName = formData.sportName;
+        newRequest.date = formData.date;
+        newRequest.time = formData.time;
+        newRequest.venue = formData.venue;
+        newRequest.additionalInfo = formData.additionalInfo;
+        break;
+      case "Trips":
+      case "Outing":
+        newRequest.travellingFrom = formData.travellingFrom;
+        newRequest.travellingTo = formData.travellingTo;
+        newRequest.timeOfTravel = formData.timeOfTravel;
+        newRequest.travelMode = formData.travelMode;
+        newRequest.additionalInfo = formData.additionalInfo;
+        break;
+      case "Lost & Found":
+        newRequest.itemName = formData.itemName;
+        newRequest.itemDescription = formData.itemDescription;
+        newRequest.dateLostFound = formData.dateLostFound;
+        newRequest.locationLostFound = formData.locationLostFound;
+        newRequest.photo = formData.photo;
+        newRequest.additionalInfo = formData.additionalInfo;
+        break;
+      case "Room-mates":
+        newRequest.roommatesGender = formData.roommatesGender;
+        newRequest.roomTypePreference = formData.roomTypePreference;
+        newRequest.hostelTower = formData.hostelTower;
+        newRequest.programYear = formData.programYear;
+        newRequest.additionalInfo = formData.additionalInfo;
+        break;
+      default:
+        break;
+    }
 
     try {
       const docRef = await addDoc(collection(db, "requests"), newRequest);
@@ -134,12 +192,12 @@ const Home = () => {
         prevRequests.map((req) =>
           req.id === requestId
             ? {
-              ...req,
-              applicants: [
-                ...req.applicants,
-                { userId: user.uid, name: user.displayName, skills },
-              ],
-            }
+                ...req,
+                applicants: [
+                  ...req.applicants,
+                  { userId: user.uid, name: user.displayName, skills },
+                ],
+              }
             : req
         )
       );
@@ -247,9 +305,8 @@ const Home = () => {
                 ))}
               </div>
             </div>
-
-            {/* Sidebar */}
-            {sidebarVisible && (
+                        {/* Sidebar */}
+                        {sidebarVisible && (
               <div className="fixed top-0 right-0 w-full md:w-1/3 h-full bg-[#28430d] shadow-lg z-50 p-6 overflow-y-auto">
                 <button
                   onClick={closeSidebar}
@@ -259,58 +316,260 @@ const Home = () => {
                 </button>
                 <h2 className="text-2xl text-white font-bold mb-4">Create a {selectedRequest} Request</h2>
                 <form onSubmit={handleSubmit}>
-                  <label className="block text-white font-bold mb-2">Title</label>
-                  <input
-                    type="text"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border rounded-md mb-4"
-                    placeholder={`Enter ${selectedRequest} title`}
-                  />
-                  <label className="block text-white font-bold mb-2">Description</label>
-                  <textarea
-                    name="description"
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border rounded-md mb-4"
-                    placeholder={`Describe your ${selectedRequest}`}
-                  ></textarea>
-                  <label className="block text-white font-bold mb-2">Skills Required</label>
-                  <input
-                    type="text"
-                    name="skillsRequired"
-                    value={formData.skillsRequired}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border rounded-md mb-4"
-                    placeholder="Skills required for this request"
-                  />
-                  <label className="block text-white font-bold mb-2">Duration</label>
-                  <input
-                    type="text"
-                    name="duration"
-                    value={formData.duration}
-                    onChange={(handleInputChange)}
-                    className="w-full p-2 border rounded-md mb-4"
-                    placeholder="Expected duration (e.g., 1 week, 2 months)"
-                  />
-                  <label className="block text-white font-bold mb-2">Teammate Expectations</label>
-                  <textarea
-                    name="teammateExpectations"
-                    value={formData.teammateExpectations}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border rounded-md mb-4"
-                    placeholder="What do you expect from teammates?"
-                  ></textarea>
-                  <label className="block text-white font-bold mb-2">User Limit</label>
-                  <input
-                    type="number"
-                    name="userLimit"
-                    value={formData.userLimit}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border rounded-md mb-4"
-                    placeholder="Maximum number of users"
-                  />
+                  {selectedRequest === "Teammate" && (
+                    <>
+                      <label className="block text-white font-bold mb-2">Title</label>
+                      <input
+                        type="text"
+                        name="title"
+                        value={formData.title}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Enter title"
+                      />
+                      <label className="block text-white font-bold mb-2">Description</label>
+                      <textarea
+                        name="description"
+                        value={formData.description}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Describe your request"
+                      ></textarea>
+                      <label className="block text-white font-bold mb-2">Requirement</label>
+                      <input
+                        type="text"
+                        name="skillsRequired"
+                        value={formData.skillsRequired}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Skills required"
+                      />
+                      <label className="block text-white font-bold mb-2">Teammate Type</label>
+                      <select
+                        name="teammateExpectations"
+                        value={formData.teammateExpectations}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                      >
+                        <option value="">Select type</option>
+                        <option value="Academic">Academic</option>
+                        <option value="Hackathon">Hackathon</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Collaborative">Collaborative</option>
+                      </select>
+                      <label className="block text-white font-bold mb-2">Additional Information</label>
+                      <textarea
+                        name="additionalInfo"
+                        value={formData.additionalInfo}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Additional information"
+                      ></textarea>
+                    </>
+                  )}
+                  {selectedRequest === "Sports" && (
+                    <>
+                      <label className="block text-white font-bold mb-2">Sport Name</label>
+                      <select
+                        name="sportName"
+                        value={formData.sportName}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                      >
+                        <option value="">Select sport</option>
+                        <option value="Football">Football</option>
+                        <option value="Cricket">Cricket</option>
+                        <option value="Basketball">Basketball</option>
+                        <option value="Tennis">Tennis</option>
+                      </select>
+                      <label className="block text-white font-bold mb-2">Date</label>
+                      <input
+                        type="date"
+                        name="date"
+                        value={formData.date}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                      />
+                      <label className="block text-white font-bold mb-2">Time</label>
+                      <input
+                        type="time"
+                        name="time"
+                        value={formData.time}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                      />
+                      <label className="block text-white font-bold mb-2">Venue</label>
+                      <input
+                        type="text"
+                        name="venue"
+                        value={formData.venue}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Enter venue"
+                      />
+                      <label className="block text-white font-bold mb-2">Additional Information</label>
+                      <textarea
+                        name="additionalInfo"
+                        value={formData.additionalInfo}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Additional information"
+                      ></textarea>
+                    </>
+                  )}
+                  {(selectedRequest === "Trips" || selectedRequest === "Outing") && (
+                    <>
+                      <label className="block text-white font-bold mb-2">Travelling From</label>
+                      <input
+                        type="text"
+                        name="travellingFrom"
+                        value={formData.travellingFrom}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Enter starting point"
+                      />
+                      <label className="block text-white font-bold mb-2">Travelling To</label>
+                      <input
+                        type="text"
+                        name="travellingTo"
+                        value={formData.travellingTo}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Enter destination"
+                      />
+                      <label className="block text-white font-bold mb-2">Time of Travel</label>
+                      <input
+                        type="time"
+                        name="timeOfTravel"
+                        value={formData.timeOfTravel}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                      />
+                      <label className="block text-white font-bold mb-2">Travel Mode</label>
+                      <input
+                        type="text"
+                        name="travelMode"
+                        value={formData.travelMode}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Enter mode of travel"
+                      />
+                      <label className="block text-white font-bold mb-2">Additional Information</label>
+                      <textarea
+                        name="additionalInfo"
+                        value={formData.additionalInfo}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Additional information"
+                      ></textarea>
+                    </>
+                  )}
+                  {selectedRequest === "Lost & Found" && (
+                    <>
+                      <label className="block text-white font-bold mb-2">Item Name</label>
+                      <input
+                        type="text"
+                        name="itemName"
+                        value={formData.itemName}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Enter item name"
+                      />
+                      <label className="block text-white font-bold mb-2">Item Description</label>
+                      <textarea
+                        name="itemDescription"
+                        value={formData.itemDescription}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Describe the item"
+                      ></textarea>
+                      <label className="block text-white font-bold mb-2">Date Lost/Found</label>
+                      <input
+                        type="date"
+                        name="dateLostFound"
+                        value={formData.dateLostFound}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                      />
+                      <label className="block text-white font-bold mb-2">Location Lost/Found</label>
+                      <input
+                        type="text"
+                        name="locationLostFound"
+                        value={formData.locationLostFound}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Enter location"
+                      />
+                      <label className="block text-white font-bold mb-2">Upload a Photo</label>
+                      <input
+                        type="file"
+                        name="photo"
+                        onChange={handleFileChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                      />
+                      <label className="block text-white font-bold mb-2">Additional Information</label>
+                      <textarea
+                        name="additionalInfo"
+                        value={formData.additionalInfo}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Additional information"
+                      ></textarea>
+                    </>
+                  )}
+                  {selectedRequest === "Room-mates" && (
+                    <>
+                      <label className="block text-white font-bold mb-2">Roommates Gender</label>
+                      <select
+                        name="roommatesGender"
+                        value={formData.roommatesGender}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                      >
+                        <option value="">Select gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                      </select>
+                      <label className="block text-white font-bold mb-2">Room Type Preference</label>
+                      <select
+                        name="roomTypePreference"
+                        value={formData.roomTypePreference}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                      >
+                        <option value="">Select room type</option>
+                        <option value="2 Sharing">2 Sharing</option>
+                        <option value="3 Sharing">3 Sharing</option>
+                        <option value="4 Sharing">4 Sharing</option>
+                      </select>
+                      <label className="block text-white font-bold mb-2">Hostel Tower</label>
+                      <input
+                        type="text"
+                        name="hostelTower"
+                        value={formData.hostelTower}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Enter hostel tower"
+                      />
+                      <label className="block text-white font-bold mb-2">Program/Year</label>
+                      <input
+                        type="text"
+                        name="programYear"
+                        value={formData.programYear}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Enter program/year"
+                      />
+                      <label className="block text-white font-bold mb-2">Additional Information</label>
+                      <textarea
+                        name="additionalInfo"
+                        value={formData.additionalInfo}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md mb-4"
+                        placeholder="Additional information"
+                      ></textarea>
+                    </>
+                  )}
                   <button
                     type="submit"
                     className="w-full bg-green-600 text-white py-2 rounded-md shadow hover:bg-green-700"
@@ -332,4 +591,3 @@ const Home = () => {
 };
 
 export default Home;
-

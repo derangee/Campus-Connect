@@ -21,6 +21,7 @@ const Home = () => {
     duration: "",
     teammateExpectations: "",
   });
+  
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {

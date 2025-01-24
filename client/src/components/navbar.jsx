@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { auth, provider } from "../firebase"; // Import from your firebase.js
+import { auth, provider } from "../firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import logo from "../../public/srmaplogo.png";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
+
 
 function Navbar() {
   const [user, setUser] = useState(null);
@@ -15,11 +18,11 @@ function Navbar() {
       if (currentUser && currentUser.email.endsWith("@srmap.edu.in")) {
         setUser(currentUser); // Keep the user signed in
       } else {
-        setUser(null); // Sign out unauthorized users
+        setUser(null);
       }
     });
 
-    return () => unsubscribe(); // Clean up the listener
+    return () => unsubscribe();
   }, []);
 
   const handleSignIn = async () => {
@@ -52,11 +55,12 @@ function Navbar() {
     <nav className="flex items-center justify-between bg-[#4d6b2c] px-6 py-4 text-white">
       {/* Logo */}
       <a href="/">
-      <img
-        src={logo}
-        alt="SRM AP Logo"
-        className="h-12 object-contain"
-      /></a>
+        <img
+          src={logo}
+          alt="SRM AP Logo"
+          className="h-12 object-contain"
+        />
+      </a>
 
       {/* Hamburger Menu for Mobile */}
       <button
@@ -77,17 +81,32 @@ function Navbar() {
               onClick={() => setDropdownOpen(!dropdownOpen)} // Toggle dropdown visibility
               className="relative"
             >
-              <img
-                src={user.photoURL}
-                alt="Profile"
-                className="h-10 w-10 rounded-full cursor-pointer"
-              />
+              <div className="flex items-center">
+                <img
+                  src={user.photoURL}
+                  alt="Profile"
+                  className="h-10 w-10 rounded-full cursor-pointer"
+                />
+                <ArrowDropDownIcon/>
+              </div>
+
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 bg-white text-black rounded shadow-lg w-48 p-2 z-10">
                   <button
                     className="w-full text-left px-4 py-2 text-sm font-semibold hover:bg-[#f0f0f0]"
                   >
-                    <a href="/profile">Go to Profile</a>
+                    <a href="/">Home</a>
+
+                  </button>
+                  <button
+                    className="w-full text-left px-4 py-2 text-sm font-semibold hover:bg-[#f0f0f0]"
+                  >
+                    <a href="/profile">Your Profile</a>
+                  </button>
+                  <button
+                    className="w-full text-left px-4 py-2 text-sm font-semibold hover:bg-[#f0f0f0]"
+                  >
+                    <a href="/about">About Us</a>
                   </button>
                 </div>
               )}

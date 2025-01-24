@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { auth } from "../firebase"; // Import your Firebase config
+import { auth } from "../firebase"; 
 import BookOutlinedIcon from "@mui/icons-material/BookOutlined";
 import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
 import LocalAirportOutlinedIcon from "@mui/icons-material/LocalAirportOutlined";

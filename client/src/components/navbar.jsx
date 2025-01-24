@@ -6,6 +6,7 @@ import logo from "../../public/srmaplogo.png";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 
+
 function Navbar() {
   const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false); // State to toggle the menu

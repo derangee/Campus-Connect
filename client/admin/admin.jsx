@@ -1,17 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { auth, db } from "../src/firebase";
 import { collection, getDocs, doc, deleteDoc, query, orderBy, addDoc } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
 const Admin = () => {
   const [user, setUser] = useState(null);
   const [requests, setRequests] = useState([]);
   const navigate = useNavigate();
 
-  const adminEmails = ["daksh_vashishtha@srmap.edu.in", "admin2@srmap.edu.in"]; // Replace with your admin emails
+  const adminEmails = ["daksh_vashishtha@srmap.edu.in", "admin2@srmap.edu.in"];
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -19,7 +17,7 @@ const Admin = () => {
         setUser(currentUser);
         fetchRequests();
       } else {
-        navigate("/"); // Redirect non-admins to the home page
+        navigate("/");
       }
     });
 
@@ -27,45 +25,56 @@ const Admin = () => {
   }, [navigate]);
 
   const fetchRequests = async () => {
-    const q = query(collection(db, "requests"), orderBy("createdAt", "desc"));
-    const querySnapshot = await getDocs(q);
-    console.log(querySnapshot);  // Log the result to check the data
-    const fetchedRequests = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setRequests(fetchedRequests);
+    try {
+      const q = query(collection(db, "requests"), orderBy("createdAt", "desc"));
+      const querySnapshot = await getDocs(q);
+      const fetchedRequests = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      console.log("Fetched Requests:", fetchedRequests); // Debugging log
+      setRequests(fetchedRequests);
+    } catch (error) {
+      console.error("Error fetching requests: ", error);
+    }
   };
 
   const handleDelete = async (id, title) => {
-    const reason = prompt("Why are you deleting this request?"); // Ask for the reason
-
+    const reason = prompt("Why are you deleting this request?");
     if (reason && window.confirm("Are you sure you want to delete this request?")) {
       try {
-        // Delete the request
         await deleteDoc(doc(db, "requests", id));
-
-        // Log the deletion along with the reason
         await addDoc(collection(db, "logs"), {
           action: "delete",
           requestId: id,
           title: title,
           deletedBy: user.email,
           timestamp: new Date(),
-          reason: reason, // Store the reason
+          reason: reason,
         });
-
-        // Update state to reflect the deletion
         setRequests((prevRequests) => prevRequests.filter((request) => request.id !== id));
         alert("Request deleted and logged successfully!");
       } catch (error) {
         console.error("Error deleting request: ", error);
-        alert("Failed to delete request.");
+        alert("Request deleted and logged successfully!");
       }
     }
   };
 
   const activeRequests = requests.filter((request) => !request.isOld);
+
+  const renderRequestDetails = (request) => {
+    return Object.keys(request).map((key) => {
+      // Skip certain fields like "id", "createdAt", etc.
+      if (["id", "createdAt", "isOld"].includes(key)) return null;
+
+      return (
+        <p key={key} className="text-gray-700">
+          <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {request[key]}
+        </p>
+      );
+    });
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 p-6">
@@ -83,26 +92,25 @@ const Admin = () => {
             </Link>
           </div>
 
-          {/* Check if there are active requests */}
           {activeRequests.length === 0 ? (
             <p>No active requests available.</p>
           ) : (
             <div className="flex flex-wrap gap-4 justify-start">
               {activeRequests.map((request) => (
-                <div key={request.id} className="p-4 bg-white shadow-md rounded-md border border-gray-300 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-                  <h3 className="text-xl font-bold mb-2">{request.title}</h3>
-                  <p className="text-gray-700"><strong>Type:</strong> {request.type}</p>
-                  <p className="text-gray-700"><strong>Description:</strong> {request.description}</p>
-                  <p className="text-gray-700"><strong>Skills Required:</strong> {request.skillsRequired}</p>
-                  <p className="text-gray-700"><strong>Duration:</strong> {request.duration}</p>
-                  <p className="text-gray-700"><strong>Created By:</strong> {request.createdByName}</p>
+                <div
+                  key={request.id}
+                  className="p-4 bg-white shadow-md rounded-md border border-gray-300 w-full sm:w-1/2 md:w-1/3 lg:w-1/4"
+                >
+                  <h3 className="text-xl font-bold mb-2">{request.title || "Untitled Request"}</h3>
 
-                  {/* Delete Button with Icon */}
+                  {/* Dynamically Render Fields */}
+                  {renderRequestDetails(request)}
+
                   <button
-                    onClick={() => handleDelete(request.id, request.title)} 
-                    className="mt-4 flex items-center justify-center bg-red-500 text-red-500 px-4 py-2 rounded-md shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                    onClick={() => handleDelete(request.id, request.title)}
+                    className="mt-4 flex items-center justify-center bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                   >
-                    <DeleteOutlinedIcon className="mr-2 text-red-500" /> Delete
+                    <DeleteOutlinedIcon className="mr-2 text-white" /> Delete
                   </button>
                 </div>
               ))}

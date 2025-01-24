@@ -30,7 +30,7 @@ const Logs = () => {
             <h3 className="text-xl font-bold mb-2">Request: {log.title}</h3>
             <p className="text-gray-700"><strong>Action:</strong> {log.action}</p>
             <p className="text-gray-700"><strong>Deleted By:</strong> {log.deletedBy}</p>
-            <p className="text-gray-700"><strong>Timestamp:</strong> {log.timestamp.toDate().toString()}</p>
+            <p className="text-gray-700"><strong>Timestamp:</strong> {new Date(log.timestamp.seconds * 1000).toString()}</p>
             {log.reason && <p className="text-gray-700"><strong>Reason:</strong> {log.reason}</p>}
           </div>
         ))}

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { auth, provider } from "../firebase"; // Import from your firebase.js
+import { auth, provider } from "../firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import logo from "../../public/srmaplogo.png";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
 
 function Navbar() {
   const [user, setUser] = useState(null);
@@ -15,11 +17,11 @@ function Navbar() {
       if (currentUser && currentUser.email.endsWith("@srmap.edu.in")) {
         setUser(currentUser); // Keep the user signed in
       } else {
-        setUser(null); // Sign out unauthorized users
+        setUser(null);
       }
     });
 
-    return () => unsubscribe(); // Clean up the listener
+    return () => unsubscribe();
   }, []);
 
   const handleSignIn = async () => {
@@ -78,18 +80,22 @@ function Navbar() {
               onClick={() => setDropdownOpen(!dropdownOpen)} // Toggle dropdown visibility
               className="relative"
             >
-              <img
-                src={user.photoURL}
-                alt="Profile"
-                className="h-10 w-10 rounded-full cursor-pointer"
-              />
+              <div className="flex items-center">
+                <img
+                  src={user.photoURL}
+                  alt="Profile"
+                  className="h-10 w-10 rounded-full cursor-pointer"
+                />
+                <ArrowDropDownIcon/>
+              </div>
+
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 bg-white text-black rounded shadow-lg w-48 p-2 z-10">
                   <button
                     className="w-full text-left px-4 py-2 text-sm font-semibold hover:bg-[#f0f0f0]"
                   >
                     <a href="/">Home</a>
-                    
+
                   </button>
                   <button
                     className="w-full text-left px-4 py-2 text-sm font-semibold hover:bg-[#f0f0f0]"

@@ -6,15 +6,24 @@ import App from "./App.jsx";
 import Footer from "./components/footer.jsx";
 import React from "react";
 import Navbar from "./components/navbar.jsx";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
 
+function RootComponent() {
+  const location = useLocation(); // Get the current route
+
+  return (
+    <>
+      <Navbar />
+      <App />
+      {location.pathname !== "/login" && <Footer />}
+    </>
+  );
+}
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Router>
-      <Navbar />
-      <App />
-      <Footer />
+      <RootComponent />
     </Router>
   </StrictMode>
 );

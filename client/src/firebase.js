@@ -10,6 +10,7 @@ const firebaseConfig = {
   messagingSenderId: "924558136316",
   appId: "1:924558136316:web:083ce64c33dfaf93235879",
   measurementId: "G-72GM469Q9P",
+  storageBucket: "srmap-campus-connect.appspot.com"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -18,4 +19,4 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 
-export { auth, provider,db };
+export { auth, provider, db };

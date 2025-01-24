@@ -1,13 +1,18 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "../firebase";
 import { collection, addDoc, getDocs, query, doc, updateDoc, arrayUnion } from "firebase/firestore";
-import BookOutlinedIcon from "@mui/icons-material/BookOutlined";
 import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
 import LocalAirportOutlinedIcon from "@mui/icons-material/LocalAirportOutlined";
 import QuestionMarkOutlinedIcon from "@mui/icons-material/QuestionMarkOutlined";
 import DirectionsBusFilledOutlinedIcon from "@mui/icons-material/DirectionsBusFilledOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import WindowOutlinedIcon from "@mui/icons-material/WindowOutlined";
+import LostFoundForm from '../components/LostFoundForm';
+import RoommatesForm from '../components/RoommateForm';
+import SportsForm from '../components/SportsForm';
+import TripsOutingForm from "../components/TripsOutingForm";
+import TeammateForm from "../components/TeammateForm";
+
 
 const Home = () => {
   const [user, setUser] = useState(null);
@@ -129,12 +134,12 @@ const Home = () => {
         prevRequests.map((req) =>
           req.id === requestId
             ? {
-                ...req,
-                applicants: [
-                  ...req.applicants,
-                  { userId: user.uid, name: user.displayName, skills },
-                ],
-              }
+              ...req,
+              applicants: [
+                ...req.applicants,
+                { userId: user.uid, name: user.displayName, skills },
+              ],
+            }
             : req
         )
       );
@@ -175,12 +180,11 @@ const Home = () => {
               <h2 className="text-4xl font-bold mb-6 text-white">New Request +</h2>
               <div className="flex justify-center flex-wrap gap-4 sm:gap-6">
                 {[
-                  { icon: <BookOutlinedIcon style={{ fontSize: "50px" }} />, label: "Projects" },
-                  { icon: <EmojiEventsOutlinedIcon style={{ fontSize: "50px" }} />, label: "Competition" },
+                  { icon: <EmojiEventsOutlinedIcon style={{ fontSize: "50px" }} />, label: "Sports" },
+                  { icon: <GroupsOutlinedIcon style={{ fontSize: "50px" }} />, label: "Teammate" },
                   { icon: <LocalAirportOutlinedIcon style={{ fontSize: "50px" }} />, label: "Trips" },
                   { icon: <DirectionsBusFilledOutlinedIcon style={{ fontSize: "50px" }} />, label: "Outing" },
-                  { icon: <QuestionMarkOutlinedIcon style={{ fontSize: "50px" }} />, label: "Lost & Found" },
-                  { icon: <GroupsOutlinedIcon style={{ fontSize: "50px" }} />, label: "Teammate" },
+                  { icon: <QuestionMarkOutlinedIcon style={{ fontSize: "50px" }} />, label: "Lost & Found" },      
                   { icon: <WindowOutlinedIcon style={{ fontSize: "50px" }} />, label: "Room-mates" },
                 ].map(({ icon, label }) => (
                   <button

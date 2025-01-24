@@ -265,10 +265,50 @@ const Home = () => {
                   <div key={request.id} className="p-4 bg-white shadow-md rounded-md border border-gray-300">
                     <h3 className="text-xl font-bold mb-2">{request.title}</h3>
                     <p className="text-gray-700"><strong>Type:</strong> {request.type}</p>
-                    <p className="text-gray-700"><strong>Description:</strong> {request.description}</p>
-                    <p className="text-gray-700"><strong>Skills Required:</strong> {request.skillsRequired}</p>
-                    <p className="text-gray-700"><strong>Duration:</strong> {request.duration}</p>
-                    <p className="text-gray-700"><strong>Expectations:</strong> {request.teammateExpectations}</p>
+                    {request.type === "Teammate" && (
+                      <>
+                        <p className="text-gray-700"><strong>Description:</strong> {request.description}</p>
+                        <p className="text-gray-700"><strong>Requirement:</strong> {request.requirement}</p>
+                        <p className="text-gray-700"><strong>Teammate Type:</strong> {request.teammateType}</p>
+                        <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                      </>
+                    )}
+                    {request.type === "Sports" && (
+                      <>
+                        <p className="text-gray-700"><strong>Sport Name:</strong> {request.sportName}</p>
+                        <p className="text-gray-700"><strong>Date:</strong> {request.date}</p>
+                        <p className="text-gray-700"><strong>Time:</strong> {request.time}</p>
+                        <p className="text-gray-700"><strong>Venue:</strong> {request.venue}</p>
+                        <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                      </>
+                    )}
+                    {(request.type === "Trips" || request.type === "Outing") && (
+                      <>
+                        <p className="text-gray-700"><strong>Travelling From:</strong> {request.travellingFrom}</p>
+                        <p className="text-gray-700"><strong>Travelling To:</strong> {request.travellingTo}</p>
+                        <p className="text-gray-700"><strong>Time of Travel:</strong> {request.timeOfTravel}</p>
+                        <p className="text-gray-700"><strong>Travel Mode:</strong> {request.travelMode}</p>
+                        <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                      </>
+                    )}
+                    {request.type === "Lost & Found" && (
+                      <>
+                        <p className="text-gray-700"><strong>Item Name:</strong> {request.itemName}</p>
+                        <p className="text-gray-700"><strong>Item Description:</strong> {request.itemDescription}</p>
+                        <p className="text-gray-700"><strong>Date Lost/Found:</strong> {request.dateLostFound}</p>
+                        <p className="text-gray-700"><strong>Location Lost/Found:</strong> {request.locationLostFound}</p>
+                        <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                      </>
+                    )}
+                    {request.type === "Room-mates" && (
+                      <>
+                        <p className="text-gray-700"><strong>Roommates Gender:</strong> {request.roommatesGender}</p>
+                        <p className="text-gray-700"><strong>Room Type Preference:</strong> {request.roomTypePreference}</p>
+                        <p className="text-gray-700"><strong>Hostel Tower:</strong> {request.hostelTower}</p>
+                        <p className="text-gray-700"><strong>Program/Year:</strong> {request.programYear}</p>
+                        <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                      </>
+                    )}
                     <p className="text-gray-700 mt-2"><strong>Created By:</strong> {request.createdByName}</p>
                     <button
                       className="mt-4 bg-green-500 text-white px-4 py-2 rounded-md shadow hover:bg-green-600"
@@ -289,11 +329,50 @@ const Home = () => {
                   <div key={request.id} className="p-4 bg-white shadow-md rounded-md border border-gray-300">
                     <h3 className="text-xl font-bold mb-2">{request.title}</h3>
                     <p className="text-gray-700"><strong>Type:</strong> {request.type}</p>
-                    <p className="text-gray-700"><strong>Description:</strong> {request.description}</p>
-                    <p className="text-gray-700"><strong>Skills Required:</strong> {request.skillsRequired}</p>
-                    <p className="text-gray-700"><strong>Duration:</strong> {request.duration}</p>
-                    <p className="text-gray-700"><strong>Expectations:</strong> {request.teammateExpectations}</p>
-                    <p className="text-gray-700"><strong>User Limit:</strong> {request.userLimit}</p>
+                    {request.type === "Teammate" && (
+                      <>
+                        <p className="text-gray-700"><strong>Description:</strong> {request.description}</p>
+                        <p className="text-gray-700"><strong>Requirement:</strong> {request.requirement}</p>
+                        <p className="text-gray-700"><strong>Teammate Type:</strong> {request.teammateType}</p>
+                        <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                      </>
+                    )}
+                    {request.type === "Sports" && (
+                      <>
+                        <p className="text-gray-700"><strong>Sport Name:</strong> {request.sportName}</p>
+                        <p className="text-gray-700"><strong>Date:</strong> {request.date}</p>
+                        <p className="text-gray-700"><strong>Time:</strong> {request.time}</p>
+                        <p className="text-gray-700"><strong>Venue:</strong> {request.venue}</p>
+                        <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                      </>
+                    )}
+                    {(request.type === "Trips" || request.type === "Outing") && (
+                      <>
+                        <p className="text-gray-700"><strong>Travelling From:</strong> {request.travellingFrom}</p>
+                        <p className="text-gray-700"><strong>Travelling To:</strong> {request.travellingTo}</p>
+                        <p className="text-gray-700"><strong>Time of Travel:</strong> {request.timeOfTravel}</p>
+                        <p className="text-gray-700"><strong>Travel Mode:</strong> {request.travelMode}</p>
+                        <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                      </>
+                    )}
+                    {request.type === "Lost & Found" && (
+                      <>
+                        <p className="text-gray-700"><strong>Item Name:</strong> {request.itemName}</p>
+                        <p className="text-gray-700"><strong>Item Description:</strong> {request.itemDescription}</p>
+                        <p className="text-gray-700"><strong>Date Lost/Found:</strong> {request.dateLostFound}</p>
+                        <p className="text-gray-700"><strong>Location Lost/Found:</strong> {request.locationLostFound}</p>
+                        <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                      </>
+                    )}
+                    {request.type === "Room-mates" && (
+                      <>
+                        <p className="text-gray-700"><strong>Roommates Gender:</strong> {request.roommatesGender}</p>
+                        <p className="text-gray-700"><strong>Room Type Preference:</strong> {request.roomTypePreference}</p>
+                        <p className="text-gray-700"><strong>Hostel Tower:</strong> {request.hostelTower}</p>
+                        <p className="text-gray-700"><strong>Program/Year:</strong> {request.programYear}</p>
+                        <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                      </>
+                    )}
                     <p className="text-gray-700 mt-2"><strong>Created By:</strong> {request.createdByName}</p>
                     <button
                       className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600"

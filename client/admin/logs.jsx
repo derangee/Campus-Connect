@@ -31,6 +31,7 @@ const Logs = () => {
             <p className="text-gray-700"><strong>Action:</strong> {log.action}</p>
             <p className="text-gray-700"><strong>Deleted By:</strong> {log.deletedBy}</p>
             <p className="text-gray-700"><strong>Timestamp:</strong> {log.timestamp.toDate().toString()}</p>
+            {log.reason && <p className="text-gray-700"><strong>Reason:</strong> {log.reason}</p>}
           </div>
         ))}
       </div>

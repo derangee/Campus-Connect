@@ -37,18 +37,21 @@ const Admin = () => {
   };
 
   const handleDelete = async (id, title) => {
-    if (window.confirm("Are you sure you want to delete this request?")) {
+    const reason = prompt("Why are you deleting this request?"); // Ask for the reason
+
+    if (reason && window.confirm("Are you sure you want to delete this request?")) {
       try {
         // Delete the request
         await deleteDoc(doc(db, "requests", id));
 
-        // Log the deletion
+        // Log the deletion along with the reason
         await addDoc(collection(db, "logs"), {
           action: "delete",
           requestId: id,
           title: title,
           deletedBy: user.email,
           timestamp: new Date(),
+          reason: reason, // Store the reason
         });
 
         // Update state to reflect the deletion

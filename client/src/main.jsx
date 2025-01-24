@@ -11,11 +11,14 @@ import { BrowserRouter as Router, useLocation } from "react-router-dom";
 function RootComponent() {
   const location = useLocation(); // Get the current route
 
+  // Hide footer on admin and logs pages
+  const showFooter = location.pathname !== "/admin" && location.pathname !== "/admin/logs";
+
   return (
     <>
       <Navbar />
       <App />
-      {location.pathname !== "/login" && <Footer />}
+      {showFooter && <Footer />}
     </>
   );
 }

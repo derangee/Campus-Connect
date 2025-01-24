@@ -13,15 +13,15 @@ const Home = () => {
   const [user, setUser] = useState(null);
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState("");
-  const [requests, setRequests] = useState([]); // Stores active requests
+  const [requests, setRequests] = useState([]); // Stores all requests
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     skillsRequired: "",
     duration: "",
     teammateExpectations: "",
+    userLimit: "", // New field for user limit
   });
-  
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -57,6 +57,7 @@ const Home = () => {
       skillsRequired: "",
       duration: "",
       teammateExpectations: "",
+      userLimit: "",
     });
   };
 
@@ -72,7 +73,8 @@ const Home = () => {
       !formData.description ||
       !formData.skillsRequired ||
       !formData.duration ||
-      !formData.teammateExpectations
+      !formData.teammateExpectations ||
+      !formData.userLimit
     ) {
       alert("Please fill out all fields before submitting.");
       return;
@@ -85,9 +87,11 @@ const Home = () => {
       skillsRequired: formData.skillsRequired,
       duration: formData.duration,
       teammateExpectations: formData.teammateExpectations,
+      userLimit: parseInt(formData.userLimit, 10),
       createdBy: user?.uid || "Anonymous",
       createdByName: user?.displayName || "Anonymous",
       createdAt: new Date(),
+      applicants: [],
     };
 
     try {
@@ -102,7 +106,12 @@ const Home = () => {
     }
   };
 
-  const handleApply = async (requestId) => {
+  const handleApply = async (requestId, userLimit, applicants) => {
+    if (applicants?.length >= userLimit) {
+      alert("User limit reached. Cannot join this request.");
+      return;
+    }
+
     const skills = prompt("Enter your skills:");
     if (!skills) return;
 
@@ -115,7 +124,20 @@ const Home = () => {
           skills,
         }),
       });
-      alert("Application submitted successfully!");
+      alert("You have successfully joined the request!");
+      setRequests((prevRequests) =>
+        prevRequests.map((req) =>
+          req.id === requestId
+            ? {
+                ...req,
+                applicants: [
+                  ...req.applicants,
+                  { userId: user.uid, name: user.displayName, skills },
+                ],
+              }
+            : req
+        )
+      );
     } catch (error) {
       console.error("Error applying for request: ", error);
     }
@@ -209,10 +231,11 @@ const Home = () => {
                     <p className="text-gray-700"><strong>Skills Required:</strong> {request.skillsRequired}</p>
                     <p className="text-gray-700"><strong>Duration:</strong> {request.duration}</p>
                     <p className="text-gray-700"><strong>Expectations:</strong> {request.teammateExpectations}</p>
+                    <p className="text-gray-700"><strong>User Limit:</strong> {request.userLimit}</p>
                     <p className="text-gray-700 mt-2"><strong>Created By:</strong> {request.createdByName}</p>
                     <button
                       className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600"
-                      onClick={() => handleApply(request.id)}
+                      onClick={() => handleApply(request.id, request.userLimit, request.applicants)}
                     >
                       Apply
                     </button>
@@ -263,9 +286,9 @@ const Home = () => {
                     type="text"
                     name="duration"
                     value={formData.duration}
-                    onChange={handleInputChange}
+                    onChange={(handleInputChange)}
                     className="w-full p-2 border rounded-md mb-4"
-                    placeholder="Expected duration (e.g., 2 weeks)"
+                    placeholder="Expected duration (e.g., 1 week, 2 months)"
                   />
                   <label className="block text-white font-bold mb-2">Teammate Expectations</label>
                   <textarea
@@ -273,20 +296,31 @@ const Home = () => {
                     value={formData.teammateExpectations}
                     onChange={handleInputChange}
                     className="w-full p-2 border rounded-md mb-4"
-                    placeholder="What qualities/skills you expect in a teammate"
+                    placeholder="What do you expect from teammates?"
                   ></textarea>
+                  <label className="block text-white font-bold mb-2">User Limit</label>
+                  <input
+                    type="number"
+                    name="userLimit"
+                    value={formData.userLimit}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded-md mb-4"
+                    placeholder="Maximum number of users"
+                  />
                   <button
                     type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600"
+                    className="w-full bg-green-600 text-white py-2 rounded-md shadow hover:bg-green-700"
                   >
-                    Submit
+                    Submit Request
                   </button>
                 </form>
               </div>
             )}
           </>
         ) : (
-          <h1 className="text-3xl font-bold">Please Sign-In...</h1>
+          <p className="text-2xl font-bold text-gray-700">
+            Please log in to view and create requests.
+          </p>
         )}
       </div>
     </div>
@@ -294,3 +328,4 @@ const Home = () => {
 };
 
 export default Home;
+

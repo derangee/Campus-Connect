@@ -56,7 +56,7 @@ const Home = () => {
                   { icon: <DirectionsBusFilledOutlinedIcon style={{ fontSize: "50px" }} />, label: "Outing" },
                   { icon: <QuestionMarkOutlinedIcon style={{ fontSize: "50px" }} />, label: "Lost & Found" },
                   { icon: <GroupsOutlinedIcon style={{ fontSize: "50px" }} />, label: "Teammate" },
-                  { icon: <WindowOutlinedIcon style={{ fontSize: "50px" }} />, label: "Room-mates" },
+                  { icon: <WindowOutlinedIcon style={{ fontSize: "50px" }} />, label: "Roommate" },
                 ].map(({ icon, label }) => (
                   <button
                     key={label}

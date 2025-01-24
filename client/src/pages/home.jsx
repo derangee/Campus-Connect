@@ -87,6 +87,7 @@ const Home = () => {
                 <h2 className="text-2xl text-white font-bold mb-4">
                   Create a {selectedRequest} Request
                 </h2>
+                
                 {/* Add form fields or additional content here */}
                 <form>
                   <label className="block text-white font-bold mb-2">Title</label>

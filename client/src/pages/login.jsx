@@ -4,6 +4,8 @@ import { auth, provider } from "../firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
+import { FaUser, FaUserShield } from "react-icons/fa"; 
+import logo from "../../public/logo.png"; // Replace with your university logo URL
 
 // Hardcoded list of admin emails
 const adminEmails = ["daksh_vashishtha@srmap.edu.in", "admin2@srmap.edu.in"];
@@ -15,7 +17,7 @@ function Login() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         if (!adminEmails.includes(user.email)) {
-          navigate("/");
+          navigate("/"); // Redirect regular users to home
         }
       }
     });
@@ -43,7 +45,7 @@ function Login() {
       const result = await signInWithPopup(auth, provider);
 
       if (adminEmails.includes(result.user.email)) {
-        navigate("/admin"); 
+        navigate("/admin");
       } else {
         alert("Access denied. Admins only.");
         await signOut(auth);
@@ -54,19 +56,34 @@ function Login() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-sm bg-white p-6 rounded shadow-md">
-        <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg space-y-6">
+        {/* University Image Section */}
+        <div className="flex justify-center">
+          <img
+            src={logo} // Replace with your university logo URL
+            alt="University Logo"
+            className="h-32 w-32 object-contain mb-4"
+          />
+        </div>
+
+        <h1 className="text-3xl font-bold text-center text-gray-700 mb-6">Login</h1>
+
+        {/* Student Login Button */}
         <button
           onClick={handleSignIn}
-          className="w-full rounded bg-[#5e7b34] px-4 py-2 text-sm font-semibold text-white hover:bg-[#49642a] mb-4"
+          className="w-full flex items-center justify-center gap-3 rounded-lg bg-[#5e7b34] px-4 py-3 text-white text-lg font-semibold hover:bg-[#49642a] transition duration-300"
         >
+          <FaUser className="text-white" />
           Student Login
         </button>
+
+        {/* Admin Login Button */}
         <button
           onClick={handleAdminLogin}
-          className="w-full rounded bg-[#5e7b34] px-4 py-2 text-sm font-semibold text-white hover:bg-[#49642a]"
+          className="w-full flex items-center justify-center gap-3 rounded-lg bg-[#5e7b34] px-4 py-3 text-white text-lg font-semibold hover:bg-[#49642a] transition duration-300"
         >
+          <FaUserShield className="text-white" />
           Admin Login
         </button>
       </div>

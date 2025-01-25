@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { db } from "../src/firebase";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
@@ -39,6 +38,7 @@ const Logs = () => {
               <h3 className="text-xl font-bold mb-2">{log.title || "Untitled Request"}</h3>
               <p><strong>Deleted At:</strong> {new Date(log.deletedAt.seconds * 1000).toLocaleString()}</p>
               <p><strong>Deleted By:</strong> {log.deletedBy}</p>
+              <p><strong>Reason:</strong> {log.reason}</p>
             </div>
           ))}
         </div>

@@ -39,13 +39,14 @@ const Admin = () => {
     }
   };
 
-  const logDeletion = async (request) => {
+  const logDeletion = async (request, reason) => {
     try {
       await addDoc(collection(db, "logs"), {
         requestId: request.id,
         title: request.title,
         deletedAt: new Date(),
         deletedBy: user.email,
+        reason: reason,
       });
     } catch (error) {
       console.error("Error logging deletion:", error);
@@ -53,12 +54,13 @@ const Admin = () => {
   };
 
   const handleDelete = async (id, title) => {
-    if (window.confirm(`Are you sure you want to delete the request: ${title}?`)) {
+    const reason = window.prompt(`Are you sure you want to delete the request: ${title}? Please provide a reason for deletion:`);
+    if (reason) {
       try {
         const requestToDelete = requests.find((request) => request.id === id);
         await deleteDoc(doc(db, "requests", id));
         setRequests(requests.filter((request) => request.id !== id));
-        await logDeletion(requestToDelete);
+        await logDeletion(requestToDelete, reason);
         alert(`Request titled "${title}" has been deleted successfully.`);
       } catch (error) {
         console.error("Error deleting request:", error);

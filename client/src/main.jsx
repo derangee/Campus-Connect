@@ -12,7 +12,7 @@ function RootComponent() {
   const location = useLocation(); // Get the current route
 
   // Hide footer on admin and logs pages
-  const showFooter = location.pathname !== "/admin" && location.pathname !== "/login" && location.pathname !== "/admin/logs";
+  const showFooter = location.pathname !== "/admin" && location.pathname !== "/login" && location.pathname !== "/admin/logs" && location.pathname !== "/chat";
 
   return (
     <>

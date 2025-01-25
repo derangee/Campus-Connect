@@ -35,46 +35,54 @@ const Admin = () => {
       console.log("Fetched Requests:", fetchedRequests); // Debugging log
       setRequests(fetchedRequests);
     } catch (error) {
-      console.error("Error fetching requests: ", error);
+      console.error("Error fetching requests:", error); // Error handling
+    }
+  };
+
+  const logDeletion = async (request) => {
+    try {
+      await addDoc(collection(db, "logs"), {
+        requestId: request.id,
+        title: request.title,
+        deletedAt: new Date(),
+        deletedBy: user.email,
+      });
+    } catch (error) {
+      console.error("Error logging deletion:", error);
     }
   };
 
   const handleDelete = async (id, title) => {
-    const reason = prompt("Why are you deleting this request?");
-    if (reason && window.confirm("Are you sure you want to delete this request?")) {
+    if (window.confirm(`Are you sure you want to delete the request: ${title}?`)) {
       try {
+        const requestToDelete = requests.find((request) => request.id === id);
         await deleteDoc(doc(db, "requests", id));
-        await addDoc(collection(db, "logs"), {
-          action: "delete",
-          requestId: id,
-          title: title,
-          deletedBy: user.email,
-          timestamp: new Date(),
-          reason: reason,
-        });
-        setRequests((prevRequests) => prevRequests.filter((request) => request.id !== id));
-        alert("Request deleted and logged successfully!");
+        setRequests(requests.filter((request) => request.id !== id));
+        await logDeletion(requestToDelete);
+        alert(`Request titled "${title}" has been deleted successfully.`);
       } catch (error) {
-        console.error("Error deleting request: ", error);
-        alert("Request deleted and logged successfully!");
+        console.error("Error deleting request:", error);
       }
     }
   };
 
-  const activeRequests = requests.filter((request) => !request.isOld);
-
   const renderRequestDetails = (request) => {
-    return Object.keys(request).map((key) => {
-      // Skip certain fields like "id", "createdAt", etc.
-      if (["id", "createdAt", "isOld"].includes(key)) return null;
-
-      return (
-        <p key={key} className="text-gray-700">
-          <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {request[key]}
-        </p>
-      );
-    });
+    // Render request details dynamically
+    return (
+      <div>
+        <p><strong>Description:</strong> {request.description}</p>
+        <p><strong>Created At:</strong> {new Date(request.createdAt.seconds * 1000).toLocaleString()}</p>
+        <p><strong>Created By:</strong> {request.createdByEmail}</p>
+        {/* Add more fields as necessary */}
+      </div>
+    );
   };
+
+  if (!user) {
+    return <div>Loading...</div>; // Show a loading state while checking authentication
+  }
+
+  const activeRequests = requests.filter(request => !request.completed);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 p-6">
@@ -118,7 +126,7 @@ const Admin = () => {
           )}
         </>
       ) : (
-        <p className="text-xl text-center">Loading...</p>
+        <p>Unauthorized access</p>
       )}
     </div>
   );

@@ -37,7 +37,9 @@ const Home = () => {
     roomTypePreference: "",
     hostelTower: "",
     programYear: "",
-    additionalInfo: ""
+    additionalInfo: "",
+    participants: "", // Added participants field
+    maxParticipants: "", // Add this line
   });
 
   useEffect(() => {
@@ -92,7 +94,9 @@ const Home = () => {
       roomTypePreference: "",
       hostelTower: "",
       programYear: "",
-      additionalInfo: ""
+      additionalInfo: "",
+      participants: "", // Added participants field
+      maxParticipants: "", // Add this line
     });
   };
 
@@ -113,6 +117,8 @@ const Home = () => {
       createdByName: user?.displayName || "Anonymous",
       createdAt: new Date(),
       applicants: [],
+      participants: formData.participants, // Add this line
+      maxParticipants: formData.maxParticipants, // Add this line
     };
 
     switch (selectedRequest) {
@@ -129,6 +135,7 @@ const Home = () => {
         newRequest.time = formData.time;
         newRequest.venue = formData.venue;
         newRequest.additionalInfo = formData.additionalInfo;
+        newRequest.participants = formData.participants; // Added participants field
         break;
       case "Trips":
       case "Outing":
@@ -137,6 +144,7 @@ const Home = () => {
         newRequest.timeOfTravel = formData.timeOfTravel;
         newRequest.travelMode = formData.travelMode;
         newRequest.additionalInfo = formData.additionalInfo;
+        newRequest.participants = formData.participants; // Added participants field
         break;
       case "Lost & Found":
         newRequest.itemName = formData.itemName;
@@ -280,6 +288,7 @@ const Home = () => {
                         <p className="text-gray-700"><strong>Time:</strong> {request.time}</p>
                         <p className="text-gray-700"><strong>Venue:</strong> {request.venue}</p>
                         <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                        <p className="text-gray-700"><strong>Participants:</strong> {request.participants}</p> {/* Added participants field */}
                       </>
                     )}
                     {(request.type === "Trips" || request.type === "Outing") && (
@@ -289,6 +298,7 @@ const Home = () => {
                         <p className="text-gray-700"><strong>Time of Travel:</strong> {request.timeOfTravel}</p>
                         <p className="text-gray-700"><strong>Travel Mode:</strong> {request.travelMode}</p>
                         <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                        <p className="text-gray-700"><strong>Participants:</strong> {request.participants}</p> {/* Added participants field */}
                       </>
                     )}
                     {request.type === "Lost & Found" && (
@@ -344,6 +354,7 @@ const Home = () => {
                         <p className="text-gray-700"><strong>Time:</strong> {request.time}</p>
                         <p className="text-gray-700"><strong>Venue:</strong> {request.venue}</p>
                         <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                        <p className="text-gray-700"><strong>Participants:</strong> {request.participants}</p> {/* Added participants field */}
                       </>
                     )}
                     {(request.type === "Trips" || request.type === "Outing") && (
@@ -353,6 +364,7 @@ const Home = () => {
                         <p className="text-gray-700"><strong>Time of Travel:</strong> {request.timeOfTravel}</p>
                         <p className="text-gray-700"><strong>Travel Mode:</strong> {request.travelMode}</p>
                         <p className="text-gray-700"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+                        <p className="text-gray-700"><strong>Participants:</strong> {request.participants}</p> {/* Added participants field */}
                       </>
                     )}
                     {request.type === "Lost & Found" && (
@@ -486,52 +498,14 @@ const Home = () => {
                         className="w-full p-2 border rounded-md mb-4"
                         placeholder="Enter venue"
                       />
-                      <label className="block text-white font-bold mb-2">Additional Information</label>
-                      <textarea
-                        name="additionalInfo"
-                        value={formData.additionalInfo}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded-md mb-4"
-                        placeholder="Additional information"
-                      ></textarea>
-                    </>
-                  )}
-                  {(selectedRequest === "Trips" || selectedRequest === "Outing") && (
-                    <>
-                      <label className="block text-white font-bold mb-2">Travelling From</label>
+                      <label className="block text-white font-bold mb-2">Number of Participants</label>
                       <input
-                        type="text"
-                        name="travellingFrom"
-                        value={formData.travellingFrom}
+                        type="number"
+                        name="participants"
+                        value={formData.participants}
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded-md mb-4"
-                        placeholder="Enter starting point"
-                      />
-                      <label className="block text-white font-bold mb-2">Travelling To</label>
-                      <input
-                        type="text"
-                        name="travellingTo"
-                        value={formData.travellingTo}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded-md mb-4"
-                        placeholder="Enter destination"
-                      />
-                      <label className="block text-white font-bold mb-2">Time of Travel</label>
-                      <input
-                        type="time"
-                        name="timeOfTravel"
-                        value={formData.timeOfTravel}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded-md mb-4"
-                      />
-                      <label className="block text-white font-bold mb-2">Travel Mode</label>
-                      <input
-                        type="text"
-                        name="travelMode"
-                        value={formData.travelMode}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded-md mb-4"
-                        placeholder="Enter mode of travel"
+                        placeholder="Enter number of participants"
                       />
                       <label className="block text-white font-bold mb-2">Additional Information</label>
                       <textarea
@@ -543,6 +517,73 @@ const Home = () => {
                       ></textarea>
                     </>
                   )}
+                 
+
+{(selectedRequest === "Trips" || selectedRequest === "Outing") && (
+  <>
+    <label className="block text-white font-bold mb-2">Travelling From</label>
+    <input
+      type="text"
+      name="travellingFrom"
+      value={formData.travellingFrom}
+      onChange={handleInputChange}
+      className="w-full p-2 border rounded-md mb-4"
+      placeholder="Enter starting point"
+    />
+    <label className="block text-white font-bold mb-2">Travelling To</label>
+    <input
+      type="text"
+      name="travellingTo"
+      value={formData.travellingTo}
+      onChange={handleInputChange}
+      className="w-full p-2 border rounded-md mb-4"
+      placeholder="Enter destination"
+    />
+    <label className="block text-white font-bold mb-2">Time of Travel</label>
+    <input
+      type="time"
+      name="timeOfTravel"
+      value={formData.timeOfTravel}
+      onChange={handleInputChange}
+      className="w-full p-2 border rounded-md mb-4"
+    />
+    <label className="block text-white font-bold mb-2">Travel Mode</label>
+    <input
+      type="text"
+      name="travelMode"
+      value={formData.travelMode}
+      onChange={handleInputChange}
+      className="w-full p-2 border rounded-md mb-4"
+      placeholder="Enter mode of travel"
+    />
+    <label className="block text-white font-bold mb-2">Number of Participants</label>
+    <input
+      type="number"
+      name="participants"
+      value={formData.participants}
+      onChange={handleInputChange}
+      className="w-full p-2 border rounded-md mb-4"
+      placeholder="Enter number of participants"
+    />
+    <label className="block text-white font-bold mb-2">Maximum Participants</label>
+    <input
+      type="number"
+      name="maxParticipants"
+      value={formData.maxParticipants}
+      onChange={handleInputChange}
+      className="w-full p-2 border rounded-md mb-4"
+      placeholder="Enter maximum number of participants"
+    />
+    <label className="block text-white font-bold mb-2">Additional Information</label>
+    <textarea
+      name="additionalInfo"
+      value={formData.additionalInfo}
+      onChange={handleInputChange}
+      className="w-full p-2 border rounded-md mb-4"
+      placeholder="Additional information"
+    ></textarea>
+  </>
+)}
                   {selectedRequest === "Lost & Found" && (
                     <>
                       <label className="block text-white font-bold mb-2">Item Name</label>

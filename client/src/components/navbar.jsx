@@ -60,6 +60,10 @@ function Navbar() {
               </div>
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 bg-white text-black rounded shadow-lg w-48 p-2 z-10">
+                  <Link to="/chat" className="block px-4 py-2 text-sm hover:bg-gray-200">
+                    Live Chat
+                  </Link>
+
                   <Link to="/" className="block px-4 py-2 text-sm hover:bg-gray-200">
                     Home
                   </Link>
@@ -69,6 +73,7 @@ function Navbar() {
                   <Link to="/about" className="block px-4 py-2 text-sm hover:bg-gray-200">
                     About Us
                   </Link>
+                  
                 </div>
               )}
             </button>

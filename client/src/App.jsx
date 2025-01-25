@@ -10,12 +10,15 @@ import React from "react";
 import Login from "./pages/login";
 import Admin from "../admin/admin";
 import AdminLogs from "../admin/logs";
+import Chat from "./chats";
+
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/chat" element={<Chat />} />
       <Route path="/admin/logs" element={<AdminLogs />} />
       <Route path="/admin" element={<Admin />} />
       <Route path="/about" element={<About />} />

@@ -85,24 +85,35 @@ const Chat = () => {
     }
   };
 
+  // Check if the user is logged in
+  const isUserLoggedIn = auth.currentUser;
+
   return (
     <div className="chat-container">
-      <div className="messages">
-        {messages.map((message) => (
-          <div key={message.id} className="message">
-            <strong>{message.user}:</strong> {message.text}
+      {!isUserLoggedIn ? (
+        <div className="please-sign-in">
+          <h2>Please sign in to chat</h2>
+        </div>
+      ) : (
+        <>
+          <div className="messages">
+            {messages.map((message) => (
+              <div key={message.id} className="message">
+                <strong>{message.user}:</strong> {message.text}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div className="message-input">
-        <input
-          type="text"
-          placeholder="Type a message..."
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-        />
-        <button onClick={sendMessage}>Send</button>
-      </div>
+          <div className="message-input">
+            <input
+              type="text"
+              placeholder="Type a message..."
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+            />
+            <button onClick={sendMessage}>Send</button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

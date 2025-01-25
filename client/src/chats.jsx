@@ -55,7 +55,7 @@ const Chat = () => {
       console.log("Is Profane:", isProfane); // Debugging
 
       if (isProfane) {
-        alert("Message contains inappropriate content and cannot be sent.");
+        alert("Message contains inappropriate content and cannot be sent. Please be respectful.");
         setNewMessage(""); // Clear input
         await logProfanity(newMessage); // Optionally log flagged messages
         return;

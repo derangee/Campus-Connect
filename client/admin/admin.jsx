@@ -74,8 +74,6 @@ const Admin = () => {
       <div>
         <p><strong>Description:</strong> {request.description}</p>
         <p><strong>Created At:</strong> {new Date(request.createdAt.seconds * 1000).toLocaleString()}</p>
-        <p><strong>Created By:</strong> {request.createdByEmail}</p>
-        {/* Add more fields as necessary */}
       </div>
     );
   };
@@ -118,9 +116,9 @@ const Admin = () => {
 
                   <button
                     onClick={() => handleDelete(request.id, request.title)}
-                    className="mt-4 flex items-center justify-center bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                    className="mt-4 flex items-center justify-center bg-red-500 px-4 py-2 rounded-md shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                   >
-                    <DeleteOutlinedIcon className="mr-2 text-white" /> Delete
+                    <DeleteOutlinedIcon className="mr-2" /> Delete
                   </button>
                 </div>
               ))}

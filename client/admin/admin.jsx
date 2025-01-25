@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { auth, db } from "../src/firebase";
 import { collection, getDocs, doc, deleteDoc, query, orderBy, addDoc } from "firebase/firestore";

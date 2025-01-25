@@ -5,14 +5,15 @@ import axios from "axios";
 const app = express();
 const PORT = 5000;
 
-const HF_API_KEY = "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";  // Make sure you are using your actual Hugging Face API key
+// Make sure you have your Hugging Face API key
+const HF_API_KEY = "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";  // Replace with your actual API key
 if (!HF_API_KEY) {
   console.error("Hugging Face API key is missing!");
   process.exit(1);
 }
 
 app.use(express.json());
-app.use(cors());
+app.use(cors());  // Allow cross-origin requests from the frontend
 
 app.post("/api/proxy", async (req, res) => {
   try {
@@ -22,6 +23,7 @@ app.post("/api/proxy", async (req, res) => {
       return res.status(400).json({ error: "Missing 'text' in request body" });
     }
 
+    // Send request to Hugging Face model
     const response = await axios.post(
       "https://api-inference.huggingface.co/models/unitary/toxic-bert",
       { inputs: text },
@@ -33,17 +35,17 @@ app.post("/api/proxy", async (req, res) => {
       }
     );
 
-    // Parse response
-    const predictions = response.data[0];  // Model returns an array with predictions
+    // Extract predictions from response
+    const predictions = response.data[0]; // Model returns an array of predictions
     console.log("Model Response:", predictions);
 
-    // Extract the score for the toxic label
-    const toxicScore = predictions[0].score || 0;
+    // Check the toxic score to determine if the message is offensive
+    const toxicScore = predictions[0]?.score || 0;
     
-    // Set threshold for classifying as offensive
-    const isOffensive = toxicScore > 0.5;  // Threshold can be adjusted
+    // Set a threshold for considering the text offensive
+    const isOffensive = toxicScore > 0.5;  // You can adjust the threshold as needed
 
-    // Return a simple boolean result
+    // Respond back with the result
     res.json({ isOffensive });
   } catch (error) {
     console.error("Error in proxy server:", error.response?.data || error.message);

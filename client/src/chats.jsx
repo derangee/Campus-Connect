@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { collection, addDoc, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db, auth } from "./firebase";
@@ -20,8 +21,7 @@ const Chat = () => {
 
     return () => unsubscribe();
   }, []);
-
-  // Profanity detection using proxy server
+  
   const checkProfanity = async (text) => {
     try {
       const response = await fetch("http://localhost:5000/api/proxy", {
@@ -31,19 +31,20 @@ const Chat = () => {
         },
         body: JSON.stringify({ text }),
       });
-
+  
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
+  
       const result = await response.json();
       console.log("Profanity check result:", result);
-      return result.isOffensive; // Return the boolean indicating if the message is offensive
+      return result.isOffensive;
     } catch (error) {
       console.error("Error checking profanity:", error);
       return false; // Assume non-offensive if an error occurs
     }
   };
+  
 
   // Send a message with profanity check
   const sendMessage = async () => {

@@ -1,19 +1,28 @@
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import { dirname } from 'path';
 import express from "express";
 import cors from "cors";
 import axios from "axios";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Configure dotenv to look for .env file in parent directory
+dotenv.config({ path: path.join(__dirname, '../.env') });
+
 const app = express();
 const PORT = 5000;
 
-// Make sure you have your Hugging Face API key
-const HF_API_KEY = "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";  
+const HF_API_KEY = process.env.HF_API_KEY;
 if (!HF_API_KEY) {
   console.error("Hugging Face API key is missing!");
   process.exit(1);
 }
 
 app.use(express.json());
-app.use(cors());  // Allow cross-origin requests from the frontend
+app.use(cors());  
 
 app.post("/api/proxy", async (req, res) => {
   try {

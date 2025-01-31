@@ -9,7 +9,6 @@ import axios from "axios";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Configure dotenv to look for .env file in parent directory
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const app = express();
@@ -44,14 +43,14 @@ app.post("/api/proxy", async (req, res) => {
       }
     );
 
-    // Extract predictions from response
+    // Extracting predictions from response
     const predictions = response.data[0]; // Model returns an array of predictions
     console.log("Model Response:", predictions);
 
-    // Check the toxic score to determine if the message is offensive
+    // Checking the toxic score to determine if the message is offensive or not
     const toxicScore = predictions[0]?.score || 0;
     
-    // Set a threshold for considering the text offensive
+    // Setting a threshold for considering the text offensive
     const isOffensive = toxicScore > 0.5;  // You can adjust the threshold as needed
 
     // Respond back with the result

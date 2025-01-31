@@ -6,7 +6,7 @@ const app = express();
 const PORT = 5000;
 
 // Make sure you have your Hugging Face API key
-const HF_API_KEY = "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";  // Replace with your actual API key
+const HF_API_KEY = "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";  
 if (!HF_API_KEY) {
   console.error("Hugging Face API key is missing!");
   process.exit(1);
